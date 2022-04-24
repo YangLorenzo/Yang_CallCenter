@@ -8,6 +8,10 @@ public class Cliente {
     private String telefono;
     private Telefonata ultimaTelefonata;
 
+    public Cliente() {
+        this(null, null, null, null);
+    }
+
     public Cliente(String codiceFiscale, String nome, String cognome, String telefono) {
         this.codiceFiscale = codiceFiscale;
         this.nome = nome;
@@ -44,12 +48,10 @@ public class Cliente {
         return telefono;
     }
 
-    public boolean setTelefono(String telefono) {
-        if (telefono.matches("[0-9]+")) {
-            this.telefono = telefono;
-            return true;
-        }
-        return false;
+    public void setTelefono(String telefono) throws IllegalArgumentException {
+        if (!telefono.matches("[0-9]+"))
+            throw new IllegalArgumentException("numero di telefono invalido");
+        this.telefono = telefono;
     }
 
     public Telefonata getUltimaTelefonata() {

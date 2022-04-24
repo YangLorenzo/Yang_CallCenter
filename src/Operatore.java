@@ -3,12 +3,16 @@ import java.util.List;
 import java.util.Objects;
 
 public class Operatore {
-    private static int codiceOperatori;
+    private static int codiceOperatori = 1;
 
     private final int codice;
     private String nome;
     private String cognome;
     private List<Telefonata> telefonateRicevute;
+
+    public Operatore() {
+        this(null, null);
+    }
 
     public Operatore(String nome, String cognome) {
         this.codice = Operatore.codiceOperatori++;
