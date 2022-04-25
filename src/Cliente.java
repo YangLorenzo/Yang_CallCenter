@@ -9,7 +9,7 @@ public class Cliente {
     private Telefonata ultimaTelefonata;
 
     public Cliente() {
-        this(null, null, null, null);
+        this("", "", "", "0");
     }
 
     public Cliente(String codiceFiscale, String nome, String cognome, String telefono) {
@@ -49,7 +49,7 @@ public class Cliente {
     }
 
     public void setTelefono(String telefono) throws IllegalArgumentException {
-        if (!telefono.matches("[0-9]+"))
+        if (telefono == null || !telefono.matches("[0-9]+"))
             throw new IllegalArgumentException("numero di telefono invalido");
         this.telefono = telefono;
     }
@@ -77,8 +77,7 @@ public class Cliente {
 
     @Override
     public String toString() {
-        return codiceFiscale + " " + cognome + " " + nome + "\n"
-                + telefono;
+        return codiceFiscale + " " + cognome + " " + nome + " " + telefono;
     }
 
     public static void main(String[] args) {
