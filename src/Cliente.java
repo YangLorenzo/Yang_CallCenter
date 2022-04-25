@@ -1,5 +1,3 @@
-import java.util.Objects;
-
 public class Cliente {
     private String codiceFiscale;
     private String nome;
@@ -9,7 +7,7 @@ public class Cliente {
     private Telefonata ultimaTelefonata;
 
     public Cliente() {
-        this(null, null, null, null);
+        this("", "", "", "0");
     }
 
     public Cliente(String codiceFiscale, String nome, String cognome, String telefono) {
@@ -49,7 +47,7 @@ public class Cliente {
     }
 
     public void setTelefono(String telefono) throws IllegalArgumentException {
-        if (!telefono.matches("[0-9]+"))
+        if (telefono == null || !telefono.matches("[0-9]+"))
             throw new IllegalArgumentException("numero di telefono invalido");
         this.telefono = telefono;
     }
@@ -63,26 +61,7 @@ public class Cliente {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Cliente cliente = (Cliente) o;
-        return codiceFiscale.equals(cliente.codiceFiscale);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(codiceFiscale);
-    }
-
-    @Override
     public String toString() {
-        return codiceFiscale + " " + cognome + " " + nome + "\n"
-                + telefono;
-    }
-
-    public static void main(String[] args) {
-        Cliente c = new Cliente("aefea434554", "lorenzo", "yang", "339");
-        System.out.println(c.getCodiceFiscale());
+        return codiceFiscale + " " + cognome + " " + nome + " " + telefono;
     }
 }

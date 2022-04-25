@@ -1,9 +1,8 @@
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Objects;
 
 public class Operatore {
-    private static int codiceOperatori = 1;
+    private static int codiceOperatori = 0;
 
     private final int codice;
     private String nome;
@@ -15,7 +14,7 @@ public class Operatore {
     }
 
     public Operatore(String nome, String cognome) {
-        this.codice = Operatore.codiceOperatori++;
+        this.codice = ++Operatore.codiceOperatori;
         this.nome = nome;
         this.cognome = cognome;
 
@@ -58,19 +57,6 @@ public class Operatore {
         if (!telefonateRicevute.contains(t)) {
             telefonateRicevute.add(t);
         }
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Operatore operatore = (Operatore) o;
-        return codice == operatore.codice;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(codice);
     }
 
     @Override
