@@ -20,51 +20,41 @@ public class Main {
         while (op != 0) {
             menu();
             op = Input.getOpzione();
-            switch (op) {
-                case 1:
-                    if (!callCenter.aggiungiOperatore(Input.creaOperatore()))
-                        out.println("l'operatore inserito gia' esiste");
-                    out.println();
-                    break;
-                case 2:
-                    if (!callCenter.eliminaOperatore(Input.getCodiceOperatore()))
-                        out.println("codice invalido");
-                    else out.println("eliminato con successo");
 
-                    out.println();
-                    break;
-                case 3:
-                    if (!callCenter.aggiungiCliente(Input.creaCliente()))
-                        out.println("il cliente inserito gia' esiste");
-                    out.println();
-                    break;
-                case 4:
-                    if (!callCenter.eliminaCliente(Input.getCodiceFiscale()))
-                        out.println("codice fiscale invalido");
-                    else
-                        out.println("eliminato con successo");
-                    out.println();
-                    break;
-                case 5:
-                    if (!callCenter.riceviChiamata(Input.getCodiceFiscale()))
-                        out.println("codice fiscale invalido");
-                    out.println();
-                    break;
-                case 6:
-                    if (!callCenter.stampaTelefonateDiOperatore(Input.getCodiceOperatore()))
-                        out.println("codice dell'operatore invalido");
-                    out.println();
-                    break;
-                case 7:
-                    callCenter.stampaTuttiOperatori();
-                    out.println();
-                    break;
-                case 8:
-                    callCenter.stampaTuttiClienti();
-                    out.println();
-                    break;
-                default:
-                    break;
+            try {
+                switch (op) {
+                    case 1:
+                        callCenter.aggiungiOperatore(Input.creaOperatore());
+                        break;
+                    case 2:
+                        callCenter.eliminaOperatore(Input.getCodiceOperatore());
+                        break;
+                    case 3:
+                        callCenter.aggiungiCliente(Input.creaCliente());
+                        break;
+                    case 4:
+                        callCenter.eliminaCliente(Input.getCodiceFiscale());
+                        break;
+                    case 5:
+                        callCenter.riceviChiamata(Input.getCodiceFiscale());
+                        break;
+                    case 6:
+                        callCenter.stampaTelefonateDiOperatore(Input.getCodiceOperatore());
+                        break;
+                    case 7:
+                        callCenter.stampaTuttiOperatori();
+                        break;
+                    case 8:
+                        callCenter.stampaTuttiClienti();
+                        break;
+                    default:
+                        break;
+                }
+                out.println();
+
+            } catch (IllegalArgumentException e) {
+                out.println(e.getMessage());
+                out.println();
             }
         }
     }

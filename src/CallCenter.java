@@ -11,28 +11,26 @@ public class CallCenter {
         operatori = new HashMap<>();
     }
 
-    public boolean aggiungiCliente(Cliente c) {
-        if (!clienti.containsKey(c)) {
-            clienti.put(c.getCodiceFiscale(), c);
-            return true;
-        }
-        return false;
+    public void aggiungiCliente(Cliente c) throws IllegalArgumentException {
+        if (clienti.containsKey(c.getCodiceFiscale()))
+            throw new IllegalArgumentException("cliente gia' esiste");
+        clienti.put(c.getCodiceFiscale(), c);
     }
 
-    public boolean eliminaCliente(String codiceFiscale) {
-        return clienti.remove(codiceFiscale) == null ? false : true;
+    public void eliminaCliente(String codiceFiscale) throws IllegalArgumentException {
+        if (clienti.remove(codiceFiscale) == null)
+            throw new IllegalArgumentException("codice fiscale invalido");
     }
 
-    public boolean aggiungiOperatore(Operatore op) {
-        if (!operatori.containsKey(op.getCodice())) {
-            operatori.put(op.getCodice(), op);
-            return true;
-        }
-        return false;
+    public void aggiungiOperatore(Operatore op) throws IllegalArgumentException {
+        if (operatori.containsKey(op.getCodice()))
+            throw new IllegalArgumentException("operatore gia' esiste");
+        operatori.put(op.getCodice(), op);
     }
 
-    public boolean eliminaOperatore(int codice) {
-        return operatori.remove(codice) == null ? false : true;
+    public void eliminaOperatore(int codice) throws IllegalArgumentException {
+        if (operatori.remove(codice) == null)
+            throw new IllegalArgumentException("codice invalido");
     }
 
     public void stampaTuttiClienti() {
@@ -57,13 +55,13 @@ public class CallCenter {
             System.out.println("nessun operatore");
     }
 
-    public boolean stampaTelefonateDiOperatore(int codice) {
+    public void stampaTelefonateDiOperatore(int codice) throws IllegalArgumentException {
         Operatore op = operatori.get(codice);
-        if (op == null) return false;
+        if (op == null) throw new IllegalArgumentException("codice dell'operatore invalido");
 
         System.out.println("Telefonate ricevute dall'operatore:");
 
-        List<Telefonata> telefonate = operatori.get(codice).getTelefonateRicevute();
+        List<Telefonata> telefonate = op.getTelefonateRicevute();
         if (telefonate.isEmpty())
             System.out.println("nessuna telefonata");
         else {
@@ -73,19 +71,18 @@ public class CallCenter {
                 System.out.println("***");
             }
         }
-        return true;
     }
 
-    public boolean riceviChiamata(String codiceFiscale) {
+    public void riceviChiamata(String codiceFiscale) throws IllegalArgumentException {
         Cliente chiamante = clienti.get(codiceFiscale);
-        if (chiamante == null) return false;
+        if (chiamante == null) throw new IllegalArgumentException("codice fiscale invalido");
 
         System.out.println(chiamante);
         if (chiamante.getUltimaTelefonata() != null)
             System.out.println(chiamante.getUltimaTelefonata());
 
         Telefonata telefonata = operatoreRiceveTelefonata(chiamante);
-        if (telefonata == null) return false;
+        if (telefonata == null) throw new IllegalArgumentException("Call Center non ha ancora nessun operatore");
 
         System.out.println("chiamata in corso...");
         telefonata.inizio();
@@ -96,17 +93,15 @@ public class CallCenter {
 
         System.out.println("chiamata terminata");
         telefonata.fine();
-        return true;
     }
 
     private Telefonata operatoreRiceveTelefonata(Cliente chiamante) {
         if (operatori.isEmpty())
             return null;
 
-        int codice = 1 + (int) Math.random() * ((Operatore.getCodiceOperatori() - 1) + 1);
-
+        int codice = (int) Math.random() * (Operatore.getCodiceOperatori());
         Telefonata telefonata = new Telefonata(chiamante, operatori.get(codice));
-        operatori.get(codice - 1).aggiungiTelefonata(telefonata);
+        operatori.get(codice).aggiungiTelefonata(telefonata);
 
         return telefonata;
     }
