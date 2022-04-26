@@ -1,4 +1,5 @@
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Telefonata {
     private Cliente cliente;
@@ -25,7 +26,10 @@ public class Telefonata {
 
     @Override
     public String toString() {
-        return dataOra_fine + " - " + dataOra_fine + "\n" +
-                "operatore della telefonata: " + operatore;
+        return dataOra_inizio.toLocalDate().format(DateTimeFormatter.ofPattern("dd LLLL yyyy")) + " "
+                + dataOra_inizio.toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm")) + " - "
+                + dataOra_fine.toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm")) + "\n"
+                + "chiamante: " + cliente + "\n"
+                + "operatore: " + operatore;
     }
 }

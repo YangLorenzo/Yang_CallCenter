@@ -77,12 +77,14 @@ public class CallCenter {
         Cliente chiamante = clienti.get(codiceFiscale);
         if (chiamante == null) throw new IllegalArgumentException("codice fiscale invalido");
 
-        System.out.println(chiamante);
-        if (chiamante.getUltimaTelefonata() != null)
-            System.out.println(chiamante.getUltimaTelefonata());
-
         Telefonata telefonata = operatoreRiceveTelefonata(chiamante, 1, Operatore.getCodiceOperatori());
         if (telefonata == null) throw new IllegalArgumentException("Call Center non ha ancora nessun operatore");
+
+        System.out.println(chiamante);
+        if (chiamante.getUltimaTelefonata() != null) {
+            System.out.println("informazioni dell'ultima chiamata effettuata:");
+            System.out.println(chiamante.getUltimaTelefonata());
+        }
 
         System.out.println("chiamata in corso...");
         telefonata.inizio();
@@ -93,6 +95,8 @@ public class CallCenter {
 
         System.out.println("chiamata terminata");
         telefonata.fine();
+
+        chiamante.setUltimaTelefonata(telefonata);
     }
 
     private Telefonata operatoreRiceveTelefonata(Cliente chiamante, int min, int max) {
@@ -103,7 +107,6 @@ public class CallCenter {
 
         Telefonata telefonata = new Telefonata(chiamante, operatori.get(codice));
         operatori.get(codice).aggiungiTelefonata(telefonata);
-        chiamante.setUltimaTelefonata(telefonata);
 
         return telefonata;
     }
